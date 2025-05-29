@@ -28,6 +28,12 @@ void taskVariant4(const std::string& filename) {
     }
     fin.close();
 
+    // После окончания чтения — проверка на ошибку
+    if (!fin.eof() && fin.fail()) {
+        throw std::runtime_error("Ошибка чтения данных из файла");
+    }
+    fin.close();
+
     std::cout << "Возраст пассажиров в порядке посадки на борт:" << std::endl;
     // Сначала дети и пенсионеры
     for (auto it = specialGroup.begin(); it != specialGroup.end(); ++it) {
@@ -49,7 +55,12 @@ int main() {
     std::cout << "Практика по C++ (Вариант 4) — Панченко Е.С.\n" << std::endl;
 
     // Пример
-    taskVariant4("input.txt");
+    try {
+        taskVariant4("input.txt");
+    } catch (const std::exception& ex) {
+        std::cerr << "Ошибка: " << ex.what() << std::endl;
+        return 1;
+    }
 
     return 0;
 }
